@@ -1,0 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500);
+body {
+  background-color: #F0F1F5;
+  font-family: 'Roboto', sans-serif;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+.lista-pases {
+    text-align: left;
+}
+
+.lista-pases > li {
+    margin-bottom: 20px;
+}
+
+
+/* CSS del Carousel */
+.owl-carousel .carousel-item {
+  background: #fff;
+  border: 1px solid #D9D7DA;
+  text-align: center;
+}
+
+.owl-carousel .carousel-item-text {
+  padding: 12px;
+}
+
+.owl-carousel .carousel-item .item-kicker {
+  color: #9A5053;
+  display: block;
+  font-size: .8em;
+  font-weight: 600;
+  height: 30px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.owl-carousel .carousel-item .item-title {
+  color: #646464;
+  font-size: 1em;
+  font-weight: 600;
+  height: 38px;
+  margin: 0;
+  overflow: hidden;
+}
+
+.item-original-title {
+    color: grey;
+}
+
+.item-content {
+    color: black;
+}
+
+/* Tabs */
+
+.nav-tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.nav-tabs>li {
+  display: block;
+  position: relative;
+  text-align: center;
+}
+
+.nav-tabs>li:last-child {
+  margin-right: 0;
+}
+
+.tab-content {
+  display: inline-block;
+  width: 100%;
+}
+
+.tab-content .tab-pane {
+  display: none;
+}
+
+.tab-content .tab-pane.active {
+  display: block;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" type="text/css" href="./css/owl.carousel.min.css">
+ <link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+
+<body>
+    <h1>Cartelera</h1>
+    <!-- Usaremos este elemento como plantilla y después lo eliminaremos -->
+    <div class="owl-carousel owl-theme">
+        <div class="carousel-item">
+            <div class="carousel-item-image">
+                <a href="#" class='link-to-film'>
+                    <img src="" class="item-image">
+                </a>
+            </div>
+            <div class="carousel-item-text">
+                <span class="item-kicker"></span>
+                <h3 class="item-title"></h3>
+                <i><p class="item-original-title"></p></i>
+                <p class="item-content"></p>
+                <p><a class="trailer" href="">Trailer en Youtube</a></p>
+                <ul class="lista-pases"></ul>
+            </div>
+        </div>
+    </div>
+    <!-- Fin del elemento de plantilla -->
+
+<!-- Librería jQuery -->
+<script src="./js/jquery-2.1.4.min.js"></script>
+
+<!-- Objeto cartelera (lo he puesto fuera para que no moleste).-->
+<script src="js/cartelera.js"></script>
+
+<!-- Pintado de películas usando jQuery -->
+<script>
+    // Función para procesar fechas del formato 20180201 a 01/02/2018
+    function procesar_fecha(fecha) {
+        let year = fecha.substring(0,4)
+        let month = fecha.substring(4,6)
+        let day = fecha.substring(6,8)
+        return day+'/'+month+'/'+year
+    }
+
+    // Localizamos el elemento que usamos de plantilla
+    let initial_element = $(".carousel-item").first();
+
+    // Para cada película en el array cartelera (proveniente del json):
+    $.each(cartelera, function(index, pelicula) {
+      // Clonamos el elemento de plantilla
+      let item = initial_element.clone();
+
+      // Añadimos las propiedades del objeto película en los lugares que deseamos
+      item.find('.item-image').first().attr('src', pelicula.img_destacada[0]);
+      item.find('.item-title').first().html(pelicula.titulo);
+      item.find('.item-original-title').first().html('('+pelicula.titulo_original+')');
+      item.find('.item-content').first().html(pelicula.content);
+      let fecha_estreno = procesar_fecha(pelicula.fecha_estreno);
+      item.find('.item-kicker').first().html('Estreno: '+ fecha_estreno);
+      item.find('.link-to-film').first().attr('href', pelicula.url_pelicula);
+      item.find('.trailer').first().attr('href', pelicula.url_trailer);
+
+      let lista_pases = item.find('.lista-pases').first();
+      let pases = pelicula.pases_ocimaxpalma;
+      if (pases) {
+          $.each(pases, function(index, pase) {
+            if (pase.fecha) {
+                pas = '<li>'+procesar_fecha(pase.fecha)+'<ul>';
+                console.log(pase.sesiones)
+                if (pase.sesiones) {
+                    $.each(pase.sesiones, function(index, sesion) {
+                      pas += '<li><a href="'+sesion.url_reserva_entradas+'"><span>Sala: '+sesion.sala+' ('+sesion.formato+')</span></a></li>';
+                    });
+                }
+                pas+='</ul></li>';
+                lista_pases.append(pas);
+            }
+          });
+     };
+      // Añadimos el nuevo item al carousel
+      item.appendTo(".owl-carousel");
+    });
+
+    initial_element.remove();
+    // Cuando hemos creado todos los elementos que nos interesan eliminamos el elemento vacío que hemos usado de plantilla.
+</script>
+
+<!-- Librería Owl carousel -->
+<script src="./js/owl.carousel.min.js"></script>
+
+<!-- Configuración y opciones de la librería Owl carousel -->
+<script>
+    // Utilizamos la librería owl carousel para iniciar el carousel
+    $('.owl-carousel').owlCarousel({
+        margin: 10,
+        dots: false,
+        nav: false,
+        responsiveClass: true,
+        responsive: {
+            0: {
+              items: 1,
+              margin: 10,
+              stagePadding: 20,
+            },
+            600: {
+              items: 3,
+              margin: 20,
+              stagePadding: 50,
+            },
+            1000: {
+              items: 6
+            }
+        }
+    });
+</script>
+</body>
+</html>
